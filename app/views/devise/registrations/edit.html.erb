@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-md-3">
+    <ul class="sidebar-list">
+      <li>
+        <%= image_tag @user.profile_pic.url(:medium) %>
+      </li>
+    </ul>
+
+    <%= form_for @user, url: 'update_profile_pic', html: { multipart: false } do |form| %>
+    <div class="form-group">
+      <span class="btn btn-default btn-file">
+        <i class="fa fa-cloud-upload fa-lg"></i> Upload Photo
+        <%= form.file_field :profile_pic %>
+      </span>
+      <%= submit_tag "Save", :class => "btn btn-success profile_pic" %>
+    </div>
+    <% end %>
+
+
+
+    <br>
+    <%= link_to "View My Profile", user_path(current_user.id), class: "btn btn-default wide" %>
+  </div>
+
+  <div class="col-md-9 text-center">
+    <div class="panel panel-default">
+      <div class="panel-heading">Your Profile</div>
+        <div class="panel-body">
+          <div class="container">
+            <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+              <%= render 'shared/devisemes' %>
+
+              <div class="form-group">
+                <%= f.text_field :fullname, autofocus: true, :class => "form-control", :placeholder => "Full Name" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.email_field :email, autofocus: true, :class => "form-control", :placeholder => "Email" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.text_field :phone_number, autofocus: true, :class => "form-control", :placeholder => "Phone Number" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.text_area :description, rows: 5, cols: 25, autofocus: true, :class => "form-control", :placeholder => "Description" %>
+              </div>
+
+              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+              <% end %>
+
+              <div class="form-group">
+                <%= f.password_field :password, autocomplete: "off", :class => "form-control", :placeholder => "Password (leave blank if you don't want to change it)" %>
+                <% if @minimum_password_length %>
+                  <br />
+                <% end %>
+              </div>
+
+              <div class="form-group">
+                <%= f.password_field :password_confirmation, autocomplete: "off", :class => "form-control", :placeholder => "Confirm Password" %>
+              </div>
+
+              <div class="actions">
+                <%= link_to "Back", :back, :class => "btn btn-primary" %>
+                <%= f.submit "Update", :class => "btn btn-success" %>
+              </div>
+            <% end %>
+            <hr>
+            <h3>Unhappy?</h3>
+
+          <%= button_to "Permanently delete my account", registration_path(resource_name), data: { confirm: "This is permanent, are you sure?" }, method: :delete, :class => "btn btn-default" %>
+          </div>
+</div>

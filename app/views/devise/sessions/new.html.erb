@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 text-center">
+
+    <%= link_to "Sign In with Facebook", user_facebook_omniauth_authorize_path, class: "btn btn-primary" %>
+    <%= link_to "Sign In with Google", user_google_oauth2_omniauth_authorize_path, class: "btn btn-primary" %>
+
+    <h2>Log in</h2>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+      <%= render 'shared/devisemes' %>
+
+      <div class="form-group">
+        <%= f.email_field :email, autofocus: true, :class => "form-control", :placeholder => "Email" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.password_field :password, autocomplete: "off", :class => "form-control", :placeholder => "Password" %>
+      </div>
+
+      <% if devise_mapping.rememberable? -%>
+        <div class="form-group">Remember me
+          <%= f.check_box :remember_me %></br>
+        </div>
+      <% end -%>
+
+      <div class="actions">
+        <%= link_to "Forgot Password", new_user_password_path, :class => "btn btn-primary" %>
+        <%= f.submit "Log in", :class => "btn btn-primary"  %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+

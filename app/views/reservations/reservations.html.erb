@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-md-3">
+    <ul class="sidebar-list">
+      <li class="sidebar-item"><%= link_to "Your Listing", rooms_path, class: "sidebar-link" %></li>
+      <li class="sidebar-item"><%= link_to "Your Reservations", reservations_path, class: "sidebar-link active" %></li>
+      <li class="sidebar-item"><%= link_to "Your Trips", trips_path, class: "sidebar-link" %></li>
+    </ul>
+  </div>
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Your Reservations
+      </div>
+      <div class="panel-body">
+      <% @rooms.each do |room| %>
+        <% room.reservations.each do |reservation| %>
+          <div class="row">
+            <div class="col-md-2">
+              <strong>Reservation Dates</strong><br>
+              <%= reservation.start_date.strftime('%b %d %Y') %><br>
+              <%= reservation.end_date.strftime('%b %d %Y') %>
+            </div>
+            <div class="col-md-2">
+              <%= link_to (image_tag reservation.room.photos[0].image.url(:thumb)), room_path(reservation.room) %>
+            </div>
+            <div class="col-md-6">
+              <%= link_to reservation.room.listing_name, room_path(reservation.room) %>
+              <h4>$ <%= reservation.total %> Total</h4>
+            </div>
+            <div class="col-md-2">
+              <%= link_to user_path(reservation.user) do %>
+              <%= image_tag reservation.user.profile_pic.url(:thumb), class: "img-circle avatar-small" %>&nbsp;
+              <%= reservation.user.fullname %>
+              <% end %>
+            </div>
+            <!-- <div class="col-md-2">
+            </div> -->
+          </div>
+          <hr>
+        <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

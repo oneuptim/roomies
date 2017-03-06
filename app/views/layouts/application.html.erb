@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Roomies</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+	  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <script src="https://use.typekit.net/iii7xtz.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+	  <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+
+    <%= render 'shared/navbar' %>
+    <%= render 'shared/message' %>
+    <br><br>
+  	<!-- <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p> -->
+    <div class="container">
+    <%= yield %>
+	</div>
+  </body>
+</html>

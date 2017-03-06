@@ -1,0 +1,145 @@
+<div id="wrapper">
+  <!-- <div id="sidebar">
+    <div id="widget" class="sticky">
+
+    </div>
+  </div> -->
+  <div class="text-center">
+    <h2>Advanced Search</h2>
+    <p>Get exactly what fits your travel needs.</p>
+    <hr>
+  </div>
+  <div id="articles">
+    <div class="row">
+      <%= search_form_for  @search, url: search_path do |f| %>
+      <div class="row">
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <%= text_field_tag :start_date, params[:start_date], placeholder: "Start Date", class: "form-control"%>
+        </div>
+        <div class="col-md-3">
+          <%= text_field_tag :end_date, params[:end_date], placeholder: "End Date", class: "form-control"%>
+        </div>
+        <div class="col-md-3">
+          <%= f.text_field :price_gteq, placeholder: "Min Price", class: "form-control"%>
+        </div>
+        <div class="col-md-3">
+          <%= f.text_field :price_gteq, placeholder: "Max Price", class: "form-control"%>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-4">
+          <%= check_box_tag "q[room_tyoe_eq_any][]", "Entire" %> Entire Room
+        </div>
+        <div class="col-md-4">
+          <%= check_box_tag "q[room_tyoe_eq_any][]", "Private" %> Private Room
+        </div>
+        <div class="col-md-4">
+          <%= check_box_tag "q[room_tyoe_eq_any][]", "Shared" %> Shared Room
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Accomodate</label>
+            <%= f.select :accommodate_gteq, [["1",1], ["2",2], ["3",3], ["4",4], ["5",5], ["6+",6]], prompt: "Select...", class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Bedrooms</label>
+            <%= f.select :accommodate_gteq, [["1",1], ["2",2], ["3",3], ["4+",4]], prompt: "Select...", class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Bathrooms</label>
+            <%= f.select :accommodate_gteq, [["1",1], ["2",2], ["3",3], ["4+",4]], prompt: "Select...", class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-2">
+          <%= check_box_tag "q[is_tv_eq]", true %> TV
+        </div>
+
+        <div class="col-md-2">
+          <%= check_box_tag "q[is_kitchen_eq]", true %> Kitchen
+        </div>
+
+        <div class="col-md-2">
+          <%= check_box_tag "q[is_internet_eq]", true %> Internet
+        </div>
+
+        <div class="col-md-2">
+          <%= check_box_tag "q[is_heating_eq]", true %> Heating
+        </div>
+
+        <div class="col-md-2">
+          <%= check_box_tag "q[is_air_eq]", true %> Air Conditioning
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <%= f.submit "Search", class: "btn btn-success profile_pic" %>
+      </div>
+
+      <% end %>
+      <div class="row">
+        <div class="text-center">
+        	<h2>Available Rentals</h2>
+        	<p>See what peopel are travelling, all around the world.</p>
+          <hr>
+        </div>
+      	<% @rooms.each do |room| %>
+
+      		<div class="col-md-4">
+      			<div class="panel panel-default">
+      				<div class="panel-heading preview">
+      					<%= link_to (image_tag room.photos[0].image.url(:medium)), room if room.photos.length > 0 %>
+      				</div>
+      				<div class="panel-body">
+      					<%= image_tag room.user.profile_pic.url(:thumb), class: "img-circle avatar-small" %>&nbsp;
+      					<%= link_to room.listing_name, room %>
+      				</div>
+      			</div>
+      		</div>
+
+      	<% end %>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+	$(function() {
+		$("#start_date").datepicker({
+			dateFormat: 'dd-mm-yy',
+			minDate: 0,
+			maxDate: '3m',
+			onSelect: function(selected) {
+				$('#end_date').datepicker("option", "minDate", selected);
+				$('#end_date').attr('disabled', false);
+			}
+		});
+
+		$("#end_date").datepicker({
+			dateFormat: 'dd-mm-yy',
+			minDate: 0,
+			maxDate: '3m',
+			onSelect: function(selected) {
+				$('#start_date').datepicker("option", "maxDate", selected);
+			}
+		});
+	})
+</script>

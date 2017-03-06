@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-md-3 text-center">
+    <%= image_tag @other.profile_pic.url(:thumb), class: "img-circle avatar-150" %><br>
+
+    <strong><%= @other.fullname %></strong>
+    <%= link_to "View Profile", @other, class: "btn btn-default wide" %><br>
+
+    <h3 class="text-left">Inbox</h3>
+    <hr>
+
+    <% @conversations.each do |conversation| %>
+    <% if !conversation.messages.nil? && !conversation.messages.last.nil? %>
+      <% other = conversation.sender == current_user ? conversation.recipient : conversation.sender %>
+      <%= link_to conversation_messages_path(conversation) do %>
+        <div class="row conversation">
+          <div class="col-md-4 text-left">
+            <%= image_tag other.profile_pic.url(:thumb), class: "img-circle avatar-medium" %>
+          </div>
+          <div class="col-md-8 text-left">
+            <%= other.fullname %><br>
+          </div>
+        </div>
+      <!-- <hr> -->
+      <% end %>
+      <% end %>
+    <% end %>
+
+    <%= link_to "All Conversations", conversations_path, class: "btn btn-default wide" %><br>
+
+  </div>
+
+  <div class="col-md-9">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Conversation with <%= @other.fullname %>
+      </div>
+      <div class="panel-body">
+        <div class="container">
+
+          <%= form_for [@conversation, @conversation.messages.new] do |f| %>
+            <div class="form-group">
+              <%= f.text_area :content, id: "new_messages", placeholder: "Add a personal messages", class: "form-control" %>
+              <%= f.hidden_field :user_id, value: current_user.id %>
+            </div>
+            <div class="actions">
+              <%= f.submit "Send Message", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="chat">
+      <%= render 'messages' %>
+    </div>
+  </div>
+</div>

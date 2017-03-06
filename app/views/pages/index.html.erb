@@ -1,0 +1,69 @@
+<%= form_tag search_path, method: :get do %>
+	<div class="row">
+		<div class="col-md-6">
+			<%= text_field_tag :search, params[:search], placeholder: "Where do you want to go?", class: "form-control" %>
+		</div>
+		<div class="col-md-2">
+			<%= text_field_tag :start_date, params[:start_date], placeholder: "Start Date", class: "form-control" %>
+		</div>
+		<div class="col-md-2">
+			<%= text_field_tag :end_date, params[:end_date], placeholder: "End Date", class: "form-control" %>
+		</div>
+		<div class="col-md-2">
+			<%= submit_tag "Search", class: "btn btn-primary" %>
+		</div>
+	</div>
+<% end %>
+
+<br>
+<br>
+
+<div class="text-center">
+	<h2>Where do you want to explore?</h2>
+	<p>See what peopel are travelling, all around the world.</p>
+</div>
+
+<br>
+
+<div class="row">
+	<% @rooms.each do |room| %>
+
+		<div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading preview">
+					<%= link_to (image_tag room.photos[0].image.url(:medium)), room if room.photos.length > 0 %>
+				</div>
+				<div class="panel-body">
+					<%= image_tag room.user.profile_pic.url(:thumb), class: "img-circle avatar-small" %>&nbsp;
+					<%= link_to room.listing_name, room %> ($<%= room.price %> per night)
+				</div>
+			</div>
+		</div>
+
+	<% end %>
+</div>
+
+<script>
+	$(function() {
+		$("#start_date").datepicker({
+			dateFormat: 'dd-mm-yy',
+			minDate: 0,
+			maxDate: '3m',
+			onSelect: function(selected) {
+				$('#end_date').datepicker("option", "minDate", selected);
+				$('#end_date').attr('disabled', false);
+			}
+		});
+
+		$("#end_date").datepicker({
+			dateFormat: 'dd-mm-yy',
+			minDate: 0,
+			maxDate: '3m',
+			onSelect: function(selected) {
+				$('#start_date').datepicker("option", "maxDate", selected);
+			}
+		});
+	})
+
+
+</script>
