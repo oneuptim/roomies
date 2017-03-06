@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:notify]
 
   def preload
     room = Room.find(params[:room_id])
@@ -16,24 +16,59 @@ class ReservationsController < ApplicationController
     output = {
       conflict: is_conflict(start_date, end_date)
     }
+
     render json: output
   end
 
+  def create
+    @reservation = current_user.reservations.create(reservation_params)
+    # redirect_to @reservation.room, notice: "#{current_user.fullname}, your reservation has been confirmed!"
+
+    if @reservation
+      # Send request to PayPal
+      values = {
+        business: 'mainaPlus-facilitator@gmail.com',
+        cmd: '_xclick',
+        upload: 1,
+        notify_url: 'http://58103b40.ngrok.io/notify',
+        amount: @reservation.total,
+      	item_name: @reservation.room.listing_name,
+        item_number: @reservation.id,
+        quantity: '1',
+        return: 'http://58103b40.ngrok.io/trips'
+      }
+
+      redirect_to "https://www.sandbox.paypal.com/cgi-bin/webscr?" + values.to_query
+    else
+      redirect_to @reservation.room, alert: "Oops, something went wrong..."
+    end
+	end
+
+  protect_from_forgery except: [:notify]
+  def notify
+    params.permit!
+    status = params[:payment_status]
+
+    reservation = Reservation.find(params[:item_number])
+
+    if status = "Completed"
+      reservation.update_attributes status: true
+    else
+      reservation.destroy
+    end
+
+    render nothing: true
+  end
+
+  protect_from_forgery except: [:trips]
   def trips
-    @trips = current_user.reservations
+    # @trips = current_user.reservations
+    @trips = current_user.reservations.where("status = ?", true)
   end
 
   def reservations
     @rooms = current_user.rooms
-    # print @reservations, "%%%%%%%%%%%%%%%%%%%"
   end
-
-
-  def create
-    @reservation = current_user.reservations.create(reservation_params)
-    redirect_to @reservation.room, notice: "#{current_user.fullname}, your reservation has been confirmed!"
-  end
-
 
   private
   def is_conflict(start_date, end_date)
@@ -48,3 +83,6 @@ class ReservationsController < ApplicationController
   end
 
 end
+#
+# redirect_to(:action => index, :notice => "Successfully updated feature.") and return
+# redirect_to(:action => :index, :notice => "Successfully updated feature.") and return

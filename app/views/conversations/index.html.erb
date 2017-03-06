@@ -5,6 +5,9 @@
       <div class="panel-heading">Your conversations</div>
       <div class="panel-body">
         <div class="containers">
+          <% if @conversations.last.messages.last.nil? %>
+          <h5>You don't have conversations :( </h5>
+          <% else %>
           <% @conversations.each do |conversation| %>
           <% if !conversation.messages.nil? && !conversation.messages.last.nil? %>
             <% other = conversation.sender == current_user ? conversation.recipient : conversation.sender %>
@@ -29,6 +32,7 @@
             <% end %>
           <% end %>
         </div>
+        <% end %>
       </div>
     </div>
   </div>

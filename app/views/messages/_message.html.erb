@@ -1,0 +1,38 @@
+<div class="panel">
+  <% if message.user != current_user %>
+  <div class="panel-body blue">
+    <div class="col-md-2 text-center">
+      <%= image_tag message.user.profile_pic.url(:thumb), class: "img-circle avatar-medium" %><br>
+      <p><span><%= message.message_time %></span></p>
+    </div>
+    <div class="col-md-8">
+      <strong><%= message.user.fullname %></strong><br>
+      <%= message.content %>
+    </div>
+    <div class="col-md-2">
+      <!-- <i class="glyphicon glyphicon-trash pull-right"></i> -->
+    </div>
+    <br>
+  </div>
+
+  <% else %>
+
+  <div class="panel-body">
+    <div class="col-md-9">
+      <%= message.content %>
+    </div>
+    <div class="col-md-2 text-right">
+      <!-- <%= image_tag message.user.profile_pic.url(:thumb), class: "img-circle avatar-medium" %><br> -->
+      <!-- <h5><%= message.user.fullname %></h5> -->
+      <strong>You</strong><br>
+      <span><strong><%= message.message_time %></strong></span>
+    </div>
+    <div class="col-md-1">
+      <i class="glyphicon glyphicon-trash pull-right"></i>
+    </div>
+    <br>
+  </div>
+
+  <% end %>
+
+</div>

@@ -48,6 +48,9 @@ gem 'hirb'
 gem 'rails-footnotes'
 gem 'ransack'
 
+gem 'private_pub'
+gem 'thin'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

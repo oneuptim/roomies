@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 					}
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  resources :users, only: [:show, :patch]
+  resources :users, only: [:show, :put]
   resources :rooms
   resources :photos
   resources :room do
@@ -21,13 +21,16 @@ Rails.application.routes.draw do
     resources :messages, only: [:index, :create]
   end
 
-  patch '/users/update_profile_pic' => 'users#update'
+  put '/users/update_profile_pic' => 'users#update'
   get '/all' => 'pages#index'
   get '/preload' => 'reservations#preload'
   get '/preview' => 'reservations#preview'
   get '/search' => 'pages#search'
   get '/trips' => 'reservations#trips'
   get '/reservations' => 'reservations#reservations'
+
+  post '/notify' => 'reservations#notify'
+  post '/trips' => 'reservations#trips'
   # get '/images/:id' => 'users#images'
 
 end
