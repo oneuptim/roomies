@@ -56,12 +56,12 @@ Rails.application.configure do
 #
 # config.action_mailer.delivery_method = :smtp
 # config.action_mailer.smtp_settings = {
-#     address: 'smtp.sendgrid.net',
+#     address: '',
 #     port: 587,
 #     enable_starttls_auto: true,
-#     user_name: 'oneuptim',
-#     password: 'Tim7024091272',
-#     authentication: 'plain'
+#     user_name: '',
+#     password: '',
+#     authentication: ''
 # }
 
 Paperclip.options[:command_path] = "/c/ImageMagick/convert/"
